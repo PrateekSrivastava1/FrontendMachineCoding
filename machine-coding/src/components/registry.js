@@ -1,5 +1,7 @@
 import Counter from './counter'
+import FileExplorer from './fileExplorer'
 import InfiniteScrolling from './infiniteScrolling'
+import Wordle from './wordleGame'
 /**
  * Register a practice component here.
  * 1. Add a folder under src/components/<name>/
@@ -17,4 +19,14 @@ export const problems = [
     title: 'Infinite Scrolling',
     Component: InfiniteScrolling,
   },
+  {
+    id: 'wordle',
+    title: 'Wordle',
+    Component: Wordle
+  },
+  {
+    id: 'file-explorer',
+    title: 'File Explorer',
+    Component: FileExplorer
+  }
 ]
