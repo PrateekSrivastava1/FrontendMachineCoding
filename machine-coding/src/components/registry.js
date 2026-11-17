@@ -1,6 +1,7 @@
 import Counter from './counter'
 import FileExplorer from './fileExplorer'
 import InfiniteScrolling from './infiniteScrolling'
+import NestedComments  from './NestedComments'
 import Wordle from './wordleGame'
 /**
  * Register a practice component here.
@@ -28,5 +29,10 @@ export const problems = [
     id: 'file-explorer',
     title: 'File Explorer',
     Component: FileExplorer
+  },
+  {
+    id: 'nested-comments',
+    title: 'Nested Comments',
+    Component: NestedComments
   }
 ]
