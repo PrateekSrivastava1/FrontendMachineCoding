@@ -1,31 +1,51 @@
 import { useState } from "react";
 
-const TreeView = ({ TreeViewData }) => {
-
+const TreeView = ({ TreeViewData, onAdd }) => {
     const [expandedNodes, setExpandedNodes] = useState({});
 
-    const toggleExpansion = (node) => {
+    const toggleExpansion = (id) => {
         setExpandedNodes((prev) => ({
             ...prev,
-            [node]: !prev[node]
+            [id]: !prev[id]
         }))
+    }
+
+    const handleAdd = (event, id, type) => {
+        event.stopPropagation();
+        onAdd(id, type);
+        setExpandedNodes((prev) => ({ ...prev, [id]: true }));
     }
 
   return (
     <div>
-      {TreeViewData.map((key, index) => (
-        <div key={index} style={{marginLeft: '40px'}}>
-          <p
-            style={{ cursor: "pointer", margin: "20px" }}
-            onClick={() => toggleExpansion(key.node)}
-          >
-            {key.node}
-          </p>
-          {expandedNodes[key.node] && key.children.length > 0 ? (
-            <TreeView TreeViewData={key.children}/>
-          ) : null}
-        </div>
-      ))}
+      {TreeViewData.map((node) => {
+        const isFolder = node.type === "folder" && Array.isArray(node.items);
+        return (
+          <div key={node.id} style={{marginLeft: '40px'}}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "8px 20px" }}>
+              <span
+                style={{ cursor: isFolder ? "pointer" : "default" }}
+                onClick={() => isFolder && toggleExpansion(node.id)}
+              >
+                {node.name}
+              </span>
+              {isFolder ? (
+                <>
+                  <button type="button" onClick={(event) => handleAdd(event, node.id, "folder")}>
+                    + Folder
+                  </button>
+                  <button type="button" onClick={(event) => handleAdd(event, node.id, "file")}>
+                    + File
+                  </button>
+                </>
+              ) : null}
+            </div>
+            {isFolder && expandedNodes[node.id] && node.items.length > 0 ? (
+              <TreeView TreeViewData={node.items} onAdd={onAdd}/>
+            ) : null}
+          </div>
+        );
+      })}
     </div>
   );
 };
